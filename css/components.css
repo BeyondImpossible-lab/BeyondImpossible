@@ -1,1 +1,105 @@
+/* ===========================================
+   Beyond Impossible Components
+=========================================== */
 
+/* ---------- Card ---------- */
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius-medium);
+    padding:var(--space-3);
+    transition:all var(--transition-normal) ease;
+}
+
+.card:hover{
+    background:var(--card-secondary);
+}
+
+.card:active{
+    transform:scale(.99);
+}
+
+/* ---------- Primary Button ---------- */
+
+.button-primary{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    width:100%;
+
+    height:56px;
+
+    border-radius:var(--radius-small);
+
+    background:var(--gold);
+
+    color:#111;
+
+    font-weight:600;
+
+    transition:all var(--transition-normal) ease;
+
+}
+
+.button-primary:active{
+
+    transform:scale(.98);
+
+}
+
+/* ---------- Badge ---------- */
+
+.badge{
+
+    display:inline-block;
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    background:rgba(198,164,106,.12);
+
+    color:var(--gold);
+
+    font-size:var(--caption-size);
+
+}
+
+/* ---------- Section Title ---------- */
+
+.section-title{
+
+    color:var(--gold);
+
+    text-transform:uppercase;
+
+    letter-spacing:.15em;
+
+    font-size:var(--caption-size);
+
+}
+
+/* ---------- Page Title ---------- */
+
+.page-title{
+
+    font-size:var(--display-size);
+
+    font-weight:600;
+
+    line-height:1.1;
+
+}
+
+/* ---------- Body ---------- */
+
+.body-text{
+
+    color:var(--muted);
+
+}
