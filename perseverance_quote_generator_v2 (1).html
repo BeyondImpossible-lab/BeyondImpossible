@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Unsolved Is Not Impossible</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --bg1: #090d18;
+      --bg2: #1b2440;
+      --panel: rgba(255,255,255,.09);
+      --border: rgba(255,255,255,.16);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,.66);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(130,165,255,.20), transparent 32%),
+        radial-gradient(circle at 88% 90%, rgba(181,121,255,.16), transparent 30%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+    }
+
+    .app {
+      width: min(820px, 100%);
+      padding: 42px 34px 30px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 28px 90px rgba(0,0,0,.42);
+      text-align: center;
+    }
+
+    .kicker {
+      margin: 0 0 10px;
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      line-height: 1.08;
+    }
+
+    .philosophy {
+      max-width: 640px;
+      margin: 14px auto 26px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: .98rem;
+    }
+
+    .source-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.07);
+      font-size: .85rem;
+      font-weight: 800;
+      color: rgba(255,255,255,.88);
+    }
+
+    blockquote {
+      min-height: 220px;
+      margin: 12px 0 0;
+      padding: 20px 10px 4px;
+      display: grid;
+      place-items: center;
+      font-size: clamp(1.75rem, 5vw, 3.35rem);
+      font-weight: 850;
+      line-height: 1.18;
+      letter-spacing: -.025em;
+    }
+
+    .reflection {
+      max-width: 650px;
+      margin: 10px auto 0;
+      color: var(--muted);
+      line-height: 1.55;
+      min-height: 48px;
+    }
+
+    .date {
+      margin: 21px 0 0;
+      font-size: .9rem;
+      color: rgba(255,255,255,.52);
+    }
+
+    .controls {
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+      gap: 11px;
+      flex-wrap: wrap;
+    }
+
+    button, select {
+      border-radius: 999px;
+      padding: 13px 18px;
+      font-size: .95rem;
+      font-weight: 850;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      transition: transform .16s ease, opacity .16s ease;
+    }
+
+    button:hover { transform: translateY(-2px); }
+    button:active { transform: translateY(0); }
+
+    .primary {
+      background: white;
+      color: #121725;
+    }
+
+    .secondary {
+      color: white;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.08);
+    }
+
+    select {
+      color: white;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.08);
+      cursor: pointer;
+    }
+
+    select option { color: #111; }
+
+    .notice {
+      margin: 25px auto 0;
+      max-width: 650px;
+      font-size: .76rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,.42);
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 12px; }
+      .app { padding: 32px 18px 24px; border-radius: 22px; }
+      blockquote { min-height: 250px; padding-inline: 0; }
+      button, select { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <p class="kicker">Your Philosophy Generator</p>
+    <h1>The Unsolved Is Not Impossible</h1>
+
+    <p class="philosophy">
+      No problem is beyond human understanding. Through research, persistence,
+      better questions, rigorous reasoning, experimentation, and time, a solution can be found.
+    </p>
+
+    <div class="source-pill" id="inspiration">Your Philosophy</div>
+    <blockquote id="quote">Loading your quote...</blockquote>
+    <p class="reflection" id="reflection"></p>
+    <p class="date" id="date"></p>
+
+    <div class="controls">
+      <select id="styleSelect" aria-label="Choose inspiration style">
+        <option value="mixed">Mix All Styles</option>
+        <option value="your">Your Philosophy</option>
+        <option value="leonardo">Leonardo-Inspired</option>
+        <option value="tesla">Tesla-Inspired</option>
+        <option value="edison">Edison-Inspired</option>
+        <option value="feynman">Feynman-Inspired</option>
+        <option value="turing">Turing-Inspired</option>
+      </select>
+
+      <button class="primary" id="generateButton">Generate Quote</button>
+      <button class="secondary" id="dailyButton">Today’s Quote</button>
+      <button class="secondary" id="copyButton">Copy</button>
+    </div>
+
+    <p class="notice">
+      These are original generated sayings inspired by broad themes associated with each thinker.
+      They are not historical quotations and are not attributed to those people.
+    </p>
+  </main>
+
+  <script>
+    const styleData = {
+      your: {
+        label: "Your Philosophy",
+        openings: [
+          "An unsolved problem",
+          "The word impossible",
+          "Every limit we accept",
+          "What humanity cannot explain today",
+          "A difficult problem",
+          "The absence of an answer",
+          "No obstacle",
+          "The boundary of current knowledge"
+        ],
+        middles: [
+          "is not proof of impossibility",
+          "often means the research is unfinished",
+          "can become the starting point of discovery",
+          "may become tomorrow's understood reality",
+          "is an invitation to investigate more deeply",
+          "does not mean no answer exists",
+          "gets the final word while we can still learn",
+          "is temporary when curiosity refuses to stop"
+        ],
+        endings: [
+          "when research, persistence, and time are allowed to work.",
+          "because today's limits do not control tomorrow's understanding.",
+          "if we refuse to confuse difficulty with defeat.",
+          "when belief is followed by disciplined action.",
+          "as long as someone is still willing to search.",
+          "because knowledge expands through determined minds."
+        ],
+        reflections: [
+          "Do not judge possibility only by what is currently known.",
+          "Stay with the problem longer than doubt expects you to.",
+          "A missing answer is a reason to investigate, not surrender.",
+          "Your belief becomes powerful when it is supported by method and action."
+        ]
+      },
+
+      leonardo: {
+        label: "Leonardo-Inspired",
+        openings: [
+          "Nature reveals its patterns",
+          "The world becomes less mysterious",
+          "A careful observer",
+          "Curiosity turns confusion",
+          "What others overlook",
+          "Every hidden mechanism"
+        ],
+        middles: [
+          "to those patient enough to observe",
+          "when we study its smallest details",
+          "can find order inside apparent chaos",
+          "into a map for discovery",
+          "may contain the beginning of an invention",
+          "can be understood through disciplined attention"
+        ],
+        endings: [
+          "because understanding begins with learning how to see.",
+          "when imagination and observation work together.",
+          "if questions are allowed to grow deeper.",
+          "through patience, sketches, tests, and constant revision.",
+          "when the mind remains curious longer than the mystery remains hidden."
+        ],
+        reflections: [
+          "Look closely before deciding something cannot be understood.",
+          "Observation is often the first experiment.",
+          "Curiosity becomes useful when it is trained by patience.",
+          "Study what everyone else passes by."
+        ]
+      },
+
+      tesla: {
+        label: "Tesla-Inspired",
+        openings: [
+          "The future often begins",
+          "An idea can arrive",
+          "Today's impossibility",
+          "The unseen possibility",
+          "A mind that thinks beyond the present",
+          "The next invention"
+        ],
+        middles: [
+          "inside a vision others cannot yet recognize",
+          "before the world is prepared to accept it",
+          "may become tomorrow's ordinary technology",
+          "is still real before it becomes visible",
+          "can discover paths the present has not named",
+          "may already exist as a question in someone's imagination"
+        ],
+        endings: [
+          "when persistence protects the idea from early doubt.",
+          "because invention begins before proof is complete.",
+          "if vision is strengthened by research and testing.",
+          "when imagination refuses to remain trapped by current limits.",
+          "through courage, precision, and relentless thought."
+        ],
+        reflections: [
+          "Do not mistake unfamiliarity for impossibility.",
+          "A vision needs both imagination and proof.",
+          "The future is often built by people misunderstood in the present.",
+          "Think beyond what exists, then test what could."
+        ]
+      },
+
+      edison: {
+        label: "Edison-Inspired",
+        openings: [
+          "Every failed attempt",
+          "Experimentation turns mistakes",
+          "A setback",
+          "Progress is built",
+          "The next successful method",
+          "Persistence transforms failure"
+        ],
+        middles: [
+          "removes one path that did not work",
+          "into information for the next test",
+          "can become evidence instead of defeat",
+          "from lessons collected through repeated trials",
+          "may be hidden inside the last unsuccessful one",
+          "into practical knowledge"
+        ],
+        endings: [
+          "when you keep testing instead of taking failure personally.",
+          "because each result improves the next decision.",
+          "if effort is corrected rather than merely repeated.",
+          "through disciplined repetition and honest evaluation.",
+          "when quitting is replaced by adjustment."
+        ],
+        reflections: [
+          "A failed method can still be a successful lesson.",
+          "Repeat with improvement, not blindly.",
+          "Results matter more than embarrassment.",
+          "Use every mistake to design a better attempt."
+        ]
+      },
+
+      feynman: {
+        label: "Feynman-Inspired",
+        openings: [
+          "The best answer",
+          "Confusion",
+          "A shallow explanation",
+          "Understanding grows",
+          "The right question",
+          "What seems complicated"
+        ],
+        middles: [
+          "often begins with a better question",
+          "is the honest beginning of understanding",
+          "should invite deeper investigation",
+          "when we admit exactly what we do not know",
+          "can unlock an entire problem",
+          "may become simple after the assumptions are examined"
+        ],
+        endings: [
+          "when curiosity is stronger than the desire to sound certain.",
+          "because honest doubt creates room for real knowledge.",
+          "if every claim is tested against reality.",
+          "when we refuse to hide ignorance behind complicated words.",
+          "through clear thinking, experimentation, and explanation."
+        ],
+        reflections: [
+          "Do not pretend to understand; keep asking until you truly do.",
+          "Clear questions expose weak assumptions.",
+          "Real understanding survives simple explanation.",
+          "Confusion is useful when you investigate it honestly."
+        ]
+      },
+
+      turing: {
+        label: "Turing-Inspired",
+        openings: [
+          "A problem that appears impossible",
+          "Logic can reveal",
+          "Every complex system",
+          "Rigorous reasoning",
+          "A hidden pattern",
+          "The path through uncertainty"
+        ],
+        middles: [
+          "may only need a new way of being represented",
+          "structure inside apparent disorder",
+          "can be divided into smaller solvable parts",
+          "turns mystery into a sequence of testable steps",
+          "can be found when the right rules are examined",
+          "often begins with defining the problem precisely"
+        ],
+        endings: [
+          "when patience and precision replace intimidation.",
+          "because clear rules can uncover unexpected solutions.",
+          "if the problem is broken down without losing sight of the whole.",
+          "through abstraction, testing, and disciplined thought.",
+          "when every assumption is made visible."
+        ],
+        reflections: [
+          "Define the problem clearly before trying to defeat it.",
+          "Complexity becomes manageable when structure is discovered.",
+          "Break the impossible into smaller questions.",
+          "Precision is a form of courage."
+        ]
+      }
+    };
+
+    const styleKeys = Object.keys(styleData);
+    const quoteElement = document.getElementById("quote");
+    const reflectionElement = document.getElementById("reflection");
+    const inspirationElement = document.getElementById("inspiration");
+    const dateElement = document.getElementById("date");
+    const styleSelect = document.getElementById("styleSelect");
+    const generateButton = document.getElementById("generateButton");
+    const dailyButton = document.getElementById("dailyButton");
+    const copyButton = document.getElementById("copyButton");
+
+    function randomItem(array, seed = null) {
+      if (seed === null) return array[Math.floor(Math.random() * array.length)];
+      return array[Math.abs(seed) % array.length];
+    }
+
+    function hashString(text) {
+      let hash = 2166136261;
+      for (let i = 0; i < text.length; i++) {
+        hash ^= text.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+      }
+      return hash >>> 0;
+    }
+
+    function makeQuote(styleKey, seed = null) {
+      const data = styleData[styleKey];
+      const s1 = seed === null ? null : seed + 11;
+      const s2 = seed === null ? null : seed + 37;
+      const s3 = seed === null ? null : seed + 71;
+      const s4 = seed === null ? null : seed + 101;
+
+      const quote = `${randomItem(data.openings, s1)} ${randomItem(data.middles, s2)} ${randomItem(data.endings, s3)}`;
+      const reflection = randomItem(data.reflections, s4);
+
+      quoteElement.textContent = `“${quote}”`;
+      reflectionElement.textContent = reflection;
+      inspirationElement.textContent = data.label;
+    }
+
+    function selectedStyle(seed = null) {
+      const chosen = styleSelect.value;
+      if (chosen !== "mixed") return chosen;
+      return randomItem(styleKeys, seed);
+    }
+
+    function generateRandomQuote() {
+      makeQuote(selectedStyle());
+    }
+
+    function showDailyQuote() {
+      const now = new Date();
+      const dateKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+      const seed = hashString(dateKey);
+      makeQuote(selectedStyle(seed), seed);
+    }
+
+    async function copyQuote() {
+      const text = `${quoteElement.textContent}\n\n${reflectionElement.textContent}\n— ${inspirationElement.textContent} original style generator`;
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = copyButton.textContent;
+        copyButton.textContent = "Copied!";
+        setTimeout(() => copyButton.textContent = original, 1200);
+      } catch {
+        alert("Copying was blocked by your browser.");
+      }
+    }
+
+    dateElement.textContent = new Date().toLocaleDateString(undefined, {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
+
+    generateButton.addEventListener("click", generateRandomQuote);
+    dailyButton.addEventListener("click", showDailyQuote);
+    copyButton.addEventListener("click", copyQuote);
+    styleSelect.addEventListener("change", generateRandomQuote);
+
+    showDailyQuote();
+  </script>
+</body>
+</html>
